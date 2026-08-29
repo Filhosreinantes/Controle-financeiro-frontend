@@ -1,1 +1,327 @@
+/* ==========================================================
+   REINA CONTROLE — Miniapp
+   Mesma identidade visual dos Guias: vinho + dourado sobre marfim
+   Poppins (títulos/labels) + Lora (leitura)
+   ========================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root{
+  --wine:        #6D2748;
+  --wine-deep:   #431A30;
+  --wine-soft:   #8C3A5F;
+  --gold:        #B8923F;
+  --gold-soft:   #E7D9B6;
+  --cream:       #FAF4EA;
+  --paper:       #FFFFFF;
+  --ink:         #2B2320;
+  --ink-soft:    #6E6259;
+  --line:        #EAE0D2;
+  --blush:       #F1E1DE;
+  --ok:          #4F7A5A;
+  --danger:      #A64C4C;
+  --radius:      14px;
+  --shadow:      0 6px 24px rgba(67,26,48,.07);
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Lora',Georgia,serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,.brand strong,button,.tabs button,.eyebrow,label,.h4{
+  font-family:'Poppins',sans-serif;
+}
+
+a{ color:var(--wine); }
+
+/* ---------------- header ---------------- */
+header{
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  padding:16px 5%;
+  position:sticky; top:0; z-index:20;
+}
+.brand{ display:flex; gap:12px; align-items:center; }
+.header-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1120px; margin:auto; }
+.header-actions{ display:flex; gap:8px; }
+.icon-btn{
+  border:1px solid var(--line); background:var(--paper); border-radius:10px;
+  width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:.15s ease;
+}
+.icon-btn svg{ width:17px; height:17px; }
+.icon-btn svg path{ fill:var(--wine-soft); }
+.icon-btn:hover{ border-color:var(--gold); background:var(--cream); }
+.brand .crown{ width:30px; height:30px; flex:none; }
+.brand .crown path{ fill:var(--gold); }
+.brand strong{
+  display:block; font-size:18px; font-weight:600; color:var(--wine);
+  letter-spacing:.01em;
+}
+.brand small{
+  display:block; color:var(--gold); font-size:9.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; margin-top:2px;
+}
+
+/* ---------------- hero ---------------- */
+main{ max-width:1120px; margin:auto; padding:0 18px 60px; }
+.hero{
+  margin:28px auto 22px;
+  padding:38px 40px;
+  border-radius:20px;
+  background:linear-gradient(135deg, var(--wine) 0%, var(--wine-deep) 100%);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:"";
+  position:absolute; right:-40px; top:-40px; width:200px; height:200px;
+  border-radius:50%; background:radial-gradient(circle, rgba(231,217,182,.14), transparent 70%);
+}
+.hero .eyebrow{
+  letter-spacing:.2em; color:var(--gold-soft); font-weight:600; font-size:11px;
+  text-transform:uppercase; margin:0 0 8px;
+}
+.hero h1{ font-size:30px; margin:0 0 8px; font-weight:600; line-height:1.2; }
+.hero p{ margin:0; color:#f1e6ea; max-width:520px; font-family:'Lora',serif; font-style:italic; font-size:14.5px; }
+
+/* ---------------- summary cards ---------------- */
+.cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.card{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px 20px; box-shadow:var(--shadow);
+  border-top:3px solid var(--gold);
+}
+.card.negative{ border-top-color:var(--danger); }
+.card span{
+  display:block; color:var(--ink-soft); font-size:11.5px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.08em; font-family:'Poppins',sans-serif;
+}
+.card strong{ font-size:22px; display:block; margin-top:8px; color:var(--wine); font-family:'Poppins',sans-serif; font-weight:600; }
+
+/* ---------------- tabs ---------------- */
+.tabs{ display:flex; gap:8px; margin:28px 0 18px; overflow:auto; padding-bottom:2px; }
+.tabs button{
+  border-radius:999px; padding:10px 18px; background:var(--paper);
+  color:var(--wine); font-weight:600; font-size:13px; cursor:pointer;
+  border:1px solid var(--line); white-space:nowrap; transition:.15s ease;
+  display:flex; align-items:center; gap:7px;
+}
+.tabs button:hover{ border-color:var(--gold); }
+.tabs button.active{ background:var(--wine); color:#fff; border-color:var(--wine); }
+.tabs button svg{ width:14px; height:14px; }
+.tabs button svg path{ fill:currentColor; }
+
+/* ---------------- panels & forms ---------------- */
+.panel{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+  padding:22px 24px; box-shadow:var(--shadow); margin-bottom:16px;
+}
+.panel h2{
+  margin:0 0 16px; font-size:15px; color:var(--wine); font-weight:600;
+  display:flex; align-items:center; gap:8px;
+}
+.panel h2::before{ content:""; width:4px; height:16px; background:var(--gold); border-radius:2px; display:inline-block; }
+
+.grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+label{ font-size:11.5px; color:var(--ink-soft); font-weight:600; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:5px; }
+.field{ display:flex; flex-direction:column; }
+input,select{
+  padding:11px 13px; border:1px solid var(--line); border-radius:10px; font-size:14.5px;
+  font-family:'Lora',serif; color:var(--ink); background:#fffdf9; width:100%;
+}
+input:focus,select:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,146,63,.15); }
+.grid button, .submit{
+  grid-column:1/-1; border:0; border-radius:10px; padding:12px 16px;
+  background:var(--wine); color:#fff; font-weight:600; font-size:14px; cursor:pointer;
+  font-family:'Poppins',sans-serif; letter-spacing:.02em; transition:.15s ease;
+}
+.grid button:hover, .submit:hover{ background:var(--wine-deep); }
+.check{ display:flex; gap:8px; align-items:center; font-family:'Lora',serif; color:var(--ink); font-size:14px; }
+.check input{ width:auto; }
+
+/* ---------------- list items ---------------- */
+.item{
+  display:flex; justify-content:space-between; gap:15px; align-items:center;
+  border-top:1px solid var(--line); padding:14px 2px;
+}
+.item:first-child{ border-top:0; }
+.item b{ color:var(--ink); font-weight:600; font-family:'Lora',serif; }
+.item .amount{ font-family:'Poppins',sans-serif; font-weight:600; color:var(--wine); }
+.item .amount.income{ color:var(--ok); }
+.item .amount.expense{ color:var(--danger); }
+.muted{ color:var(--ink-soft); font-size:12.5px; margin-top:3px; }
+.item-actions{ display:flex; gap:8px; align-items:center; }
+
+.tag{
+  display:inline-block; font-size:10px; font-weight:600; letter-spacing:.05em;
+  text-transform:uppercase; padding:3px 8px; border-radius:999px; margin-left:6px;
+  font-family:'Poppins',sans-serif;
+}
+.tag.paid{ background:#e4efe6; color:var(--ok); }
+.tag.recurring{ background:var(--gold-soft); color:#7a5f22; }
+
+button.small{
+  border:0; border-radius:8px; padding:7px 12px; font-size:12px; font-weight:600;
+  cursor:pointer; font-family:'Poppins',sans-serif; background:var(--gold-soft); color:#6d5527;
+}
+button.small:hover{ filter:brightness(.95); }
+button.danger{ background:transparent; color:var(--danger); border:1px solid #e3c9c9; }
+button.danger:hover{ background:#fdf3f3; }
+
+progress{ accent-color:var(--gold); height:8px; border-radius:6px; overflow:hidden; }
+progress::-webkit-progress-bar{ background:var(--line); border-radius:6px; }
+progress::-webkit-progress-value{ background:var(--gold); border-radius:6px; }
+
+.empty{
+  text-align:center; padding:26px 10px; color:var(--ink-soft); font-style:italic;
+}
+.empty svg{ width:26px; height:26px; margin-bottom:8px; opacity:.5; }
+.empty svg path{ fill:var(--gold); }
+
+.hidden{ display:none !important; }
+
+/* ---------------- footer ---------------- */
+footer{
+  text-align:center; padding:34px 20px; color:var(--ink-soft); border-top:1px solid var(--line);
+  margin-top:20px; font-family:'Poppins',sans-serif; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase;
+}
+footer .tag-line{
+  display:block; font-family:'Lora',serif; font-style:italic; text-transform:none;
+  letter-spacing:0; font-size:12.5px; margin-top:4px; color:#a89c8f;
+}
+
+/* ---------------- toast ---------------- */
+#toast{
+  position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--wine-deep); color:#fff; padding:12px 20px; border-radius:10px;
+  font-family:'Poppins',sans-serif; font-size:13px; box-shadow:0 8px 24px rgba(0,0,0,.2);
+  opacity:0; pointer-events:none; transition:.25s ease; z-index:50;
+}
+#toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ---------------- tela de acesso (login / cadastro) ---------------- */
+.auth-overlay{
+  position:fixed; inset:0; z-index:100;
+  background:radial-gradient(circle at 30% 20%, var(--wine-soft) 0%, var(--wine-deep) 60%, #2e1120 100%);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.auth-card{
+  background:var(--paper); border-radius:20px; padding:38px 34px 30px;
+  width:100%; max-width:390px; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,.35);
+}
+.crown-big{ width:38px; height:38px; margin-bottom:10px; }
+.crown-big path{ fill:var(--gold); }
+.auth-brand{ font-family:'Poppins',sans-serif; font-weight:600; color:var(--wine); font-size:19px; }
+.auth-tag{ font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin:4px 0 22px; font-family:'Poppins',sans-serif; font-weight:600; }
+.auth-form{ text-align:left; display:flex; flex-direction:column; gap:12px; }
+.auth-lead{ font-style:italic; color:var(--ink-soft); font-size:13.5px; margin:0 0 4px; text-align:center; }
+.auth-form .submit{ margin-top:4px; border-radius:10px; }
+.auth-error{ color:var(--danger); font-size:12.5px; text-align:center; margin:2px 0 0; min-height:14px; }
+.auth-hint{ font-size:11.5px; color:var(--ink-soft); text-align:center; margin-top:2px; }
+.auth-hint code{ background:var(--cream); padding:1px 5px; border-radius:4px; }
+.auth-switch{ text-align:center; font-size:12.5px; color:var(--ink-soft); margin:2px 0 0; }
+.auth-switch a{ font-weight:600; }
+
+/* ---------------- modal genérico ---------------- */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(43,35,32,.5); z-index:90;
+  display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.modal-card{
+  background:var(--paper); border-radius:16px; padding:26px 26px 22px;
+  width:100%; max-width:360px; box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+.modal-card h2{ margin:0 0 16px; color:var(--wine); font-size:16px; }
+.modal-actions{ display:flex; gap:10px; margin-top:4px; }
+.modal-actions .ghost, .form-actions .ghost{
+  flex:1; background:transparent; border:1px solid var(--line); color:var(--ink-soft);
+  border-radius:10px; padding:11px; font-family:'Poppins',sans-serif; font-weight:600;
+  cursor:pointer; font-size:13px;
+}
+.modal-actions .submit{ flex:1; font-size:12.5px; padding:11px 8px; }
+
+/* ---------------- badges de plano / usuário ---------------- */
+.plan-badge{
+  font-family:'Poppins',sans-serif; font-size:10px; font-weight:600; letter-spacing:.06em;
+  text-transform:uppercase; padding:5px 10px; border-radius:999px; background:var(--gold-soft); color:#7a5f22;
+}
+.plan-badge.active{ background:#e4efe6; color:var(--ok); }
+.plan-badge.canceled, .plan-badge.past_due{ background:#f6e2e2; color:var(--danger); }
+.user-name{ font-family:'Poppins',sans-serif; font-size:12.5px; color:var(--ink-soft); display:none; }
+@media(min-width:640px){ .user-name{ display:inline; } }
+
+/* ---------------- badge de capítulo do guia ---------------- */
+.chbadge{
+  display:inline-block; font-family:'Poppins',sans-serif; font-weight:600; font-size:9.5px;
+  letter-spacing:.05em; text-transform:uppercase; color:var(--gold); border:1px solid var(--gold-soft);
+  padding:3px 9px; border-radius:999px; margin-left:8px; vertical-align:middle;
+}
+
+/* ---------------- form actions (criar/editar) ---------------- */
+.form-actions{ grid-column:1/-1; display:flex; gap:10px; }
+.form-actions .submit{ flex:1; }
+.form-actions .ghost{ flex:0 0 auto; padding:11px 16px; }
+
+/* ---------------- export links ---------------- */
+.export-link{
+  display:inline-block; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
+  color:var(--wine); text-decoration:none; border:1px solid var(--gold-soft); border-radius:8px;
+  padding:7px 12px; margin-bottom:14px;
+}
+.export-link:hover{ background:var(--cream); }
+.export-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.export-link.block{ text-align:center; margin-bottom:0; }
+
+/* ---------------- gráfico mensal (SVG desenhado via JS) ---------------- */
+.chart-wrap{ width:100%; overflow-x:auto; }
+.chart-wrap svg{ display:block; }
+.chart-legend{ display:flex; gap:18px; margin-bottom:10px; font-family:'Poppins',sans-serif; font-size:11.5px; color:var(--ink-soft); }
+.chart-legend span{ display:inline-flex; align-items:center; gap:6px; }
+.chart-legend i{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+
+/* ---------------- resumo por categoria ---------------- */
+.cat-row{ margin-bottom:12px; }
+.cat-row .cat-head{ display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:5px; font-family:'Poppins',sans-serif; }
+.cat-row .cat-head b{ color:var(--ink); font-weight:600; }
+.cat-row .cat-bar-bg{ background:var(--line); border-radius:6px; height:8px; overflow:hidden; }
+.cat-row .cat-bar{ background:var(--wine); height:100%; border-radius:6px; }
+
+/* ---------------- mapa do kit ---------------- */
+.kit-map{ border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+.kit-row{
+  display:flex; justify-content:space-between; padding:10px 14px; font-size:13px;
+  border-top:1px solid var(--line);
+}
+.kit-row:first-child{ border-top:0; }
+.kit-row span:first-child{ font-weight:600; color:var(--ink); }
+.kit-row span:last-child{ color:var(--gold); font-family:'Poppins',sans-serif; font-size:11.5px; font-weight:600; }
+
+/* ---------------- conta e assinatura ---------------- */
+.account-info .row{ display:flex; justify-content:space-between; padding:9px 0; border-top:1px solid var(--line); font-size:13.5px; }
+.account-info .row:first-child{ border-top:0; }
+.account-info .row span:first-child{ color:var(--ink-soft); }
+.account-info .row span:last-child{ font-weight:600; color:var(--wine); font-family:'Poppins',sans-serif; }
+.account-note{
+  margin-top:14px; padding:12px 14px; background:var(--cream); border-left:3px solid var(--gold);
+  font-size:12.5px; color:var(--ink-soft); border-radius:4px;
+}
+
+@media(max-width:750px){
+  .cards{ grid-template-columns:repeat(2,1fr); }
+  .grid{ grid-template-columns:1fr; }
+  .hero{ padding:26px; }
+  .hero h1{ font-size:24px; }
+  .item{ align-items:flex-start; flex-direction:column; }
+  .item-actions{ margin-top:6px; }
+  .export-grid{ grid-template-columns:1fr; }
+  .user-name{ display:none; }
+}
