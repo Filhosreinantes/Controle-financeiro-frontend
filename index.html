@@ -1,1 +1,281 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REINA Controle</title>
+<link rel="stylesheet" href="/static.css">
+</head>
+<body>
 
+<!-- ===================== TELA DE ACESSO ===================== -->
+<div id="authOverlay" class="auth-overlay hidden">
+  <div class="auth-card">
+    <svg class="crown-big" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 19h18v2H3v-2zM3 8l4 3 5-7 5 7 4-3-2 9H5L3 8z"/></svg>
+    <div class="auth-brand">REINA Controle</div>
+    <div class="auth-tag">Filhos Reinantes · Inspirando Vidas para Reinar</div>
+
+    <form id="registerForm" class="auth-form">
+      <p class="auth-lead">Crie sua conta e comece seu teste grátis de 7 dias.</p>
+      <div class="field"><label>Nome</label><input name="name" placeholder="Como podemos te chamar?" required></div>
+      <div class="field"><label>E-mail</label><input name="email" type="email" placeholder="voce@email.com" required></div>
+      <div class="field"><label>Senha</label><input name="password" type="password" minlength="6" placeholder="Mínimo 6 caracteres" required></div>
+      <button class="submit">Criar conta grátis</button>
+      <p class="auth-error" id="registerError"></p>
+      <p class="auth-switch">Já tem conta? <a href="#" onclick="toggleAuthForm('login');return false;">Entrar</a></p>
+    </form>
+
+    <form id="loginForm" class="auth-form hidden">
+      <p class="auth-lead">Bem-vinda de volta.</p>
+      <div class="field"><label>E-mail</label><input name="email" type="email" placeholder="voce@email.com" required></div>
+      <div class="field"><label>Senha</label><input name="password" type="password" placeholder="Sua senha" required></div>
+      <button class="submit">Entrar</button>
+      <p class="auth-error" id="loginError"></p>
+      <p class="auth-switch">Ainda não tem conta? <a href="#" onclick="toggleAuthForm('register');return false;">Criar conta grátis</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: ALTERAR SENHA ===================== -->
+<div id="passwordModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h2>Alterar senha</h2>
+    <form id="changePasswordForm">
+      <div class="field"><label>Senha atual</label><input name="current_password" type="password" required></div>
+      <div class="field"><label>Nova senha</label><input name="new_password" type="password" minlength="4" required></div>
+      <div class="modal-actions">
+        <button type="button" class="ghost" onclick="closeModal('passwordModal')">Cancelar</button>
+        <button class="submit">Salvar nova senha</button>
+      </div>
+      <p class="auth-error" id="changePasswordError"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="appRoot" class="hidden">
+
+<header>
+  <div class="header-inner">
+  <div class="brand">
+    <svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 19h18v2H3v-2zM3 8l4 3 5-7 5 7 4-3-2 9H5L3 8z"/></svg>
+    <div>
+      <strong>REINA Controle</strong>
+      <small>Conhecer · Organizar · Planejar · Reinar</small>
+    </div>
+  </div>
+  <div class="header-actions">
+    <span id="planBadge" class="plan-badge"></span>
+    <span id="userName" class="user-name"></span>
+    <button class="icon-btn" title="Alterar senha" onclick="openModal('passwordModal')">
+      <svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 1 4 4c0 1-.4 1.9-1 2.6V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-4.4A4 4 0 0 1 8 12a4 4 0 0 1 4-4zm0-6a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16z"/></svg>
+    </button>
+    <button class="icon-btn" title="Sair" onclick="logout()">
+      <svg viewBox="0 0 24 24"><path d="M10 3h8a1 1 0 0 1 1 1v4h-2V5h-6v14h6v-3h2v4a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm4.5 8.5H3v1h11.5v3l4.5-3.5-4.5-3.5v3z"/></svg>
+    </button>
+  </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <p class="eyebrow">Filhos Reinantes</p>
+  <h1>Seu dinheiro com direção.</h1>
+  <p>Um espaço simples para registrar o que você observa nos Guias REINA Controle e acompanhar sua vida financeira, um passo de cada vez.</p>
+</section>
+
+<section class="cards">
+  <div class="card"><span>Entradas</span><strong id="income">R$ 0,00</strong></div>
+  <div class="card negative"><span>Despesas</span><strong id="expense">R$ 0,00</strong></div>
+  <div class="card"><span>Saldo</span><strong id="balance">R$ 0,00</strong></div>
+  <div class="card"><span>Comprometido</span><strong id="commitments">R$ 0,00</strong></div>
+</section>
+
+<nav class="tabs">
+<button class="active" onclick="showTab('movements',this)">
+  <svg viewBox="0 0 24 24"><path d="M7 7h9l-2.5-2.5L15 3l5 5-5 5-1.5-1.5L16 9H7V7zm10 10H8l2.5 2.5L9 21l-5-5 5-5 1.5 1.5L8 15h9v2z"/></svg>
+  Movimentações
+</button>
+<button onclick="showTab('commitmentsTab',this)">
+  <svg viewBox="0 0 24 24"><path d="M5 3h14a1 1 0 0 1 1 1v16l-3-2-3 2-3-2-3 2-3-2-3 2V4a1 1 0 0 1 1-1zm2 5h10v1.5H7V8zm0 4h10v1.5H7V12z"/></svg>
+  Compromissos
+</button>
+<button onclick="showTab('debtsTab',this)">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2zm1 15.9v1.1h-2v-1.1c-1.5-.3-2.6-1.2-2.7-2.7h1.7c.1.8.7 1.3 1.9 1.3 1.1 0 1.8-.5 1.8-1.3 0-.7-.5-1.1-1.9-1.4-1.8-.4-3.2-1-3.2-2.8 0-1.3 1-2.2 2.4-2.5V7h2v1.1c1.3.3 2.2 1.1 2.3 2.5h-1.7c-.1-.7-.6-1.2-1.7-1.2-1 0-1.6.5-1.6 1.1 0 .7.6 1 1.9 1.3 2 .4 3.2 1.1 3.2 2.9 0 1.4-1 2.3-2.4 2.6z"/></svg>
+  Dívidas
+</button>
+<button onclick="showTab('goalsTab',this)">
+  <svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.6L21 9l-5 4.6L17.5 21 12 17.3 6.5 21 8 13.6 3 9l6.4-.4L12 2z"/></svg>
+  Objetivos
+</button>
+<button onclick="showTab('resumoTab',this)">
+  <svg viewBox="0 0 24 24"><path d="M4 20V10h3v10H4zm6.5 0V4h3v16h-3zM17 20V13h3v7h-3z"/></svg>
+  Resumo
+</button>
+</nav>
+
+<!-- ===================== MOVIMENTAÇÕES ===================== -->
+<section id="movements" class="tab">
+  <div class="panel">
+    <h2>Registrar movimentação <span class="chbadge">Guia de Conhecimento · Cap. 2 e 3</span></h2>
+    <form id="transactionForm" class="grid">
+      <input type="hidden" name="_editId">
+      <div class="field"><label>Tipo</label>
+        <select name="kind"><option value="income">Entrada</option><option value="expense">Despesa</option></select>
+      </div>
+      <div class="field"><label>Descrição</label><input name="description" placeholder="Ex.: Salário, mercado..." required></div>
+      <div class="field"><label>Valor</label><input name="amount" type="number" step="0.01" min="0.01" placeholder="0,00" required></div>
+      <div class="field">
+        <label>Categoria</label>
+        <input name="category" placeholder="Opcional" list="categoryOptions">
+        <datalist id="categoryOptions">
+          <option value="Renda fixa"><option value="Renda extra"><option value="Alimentação">
+          <option value="Moradia"><option value="Transporte"><option value="Saúde">
+          <option value="Educação"><option value="Lazer"><option value="Cartão de crédito">
+          <option value="Assinaturas"><option value="Outros">
+        </datalist>
+      </div>
+      <div class="field"><label>Data</label><input name="transaction_date" type="date" required></div>
+      <div class="form-actions">
+        <button type="button" class="ghost hidden" data-cancel-edit>Cancelar edição</button>
+        <button class="submit" data-submit-label>Registrar</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h2>Histórico</h2>
+    <a class="export-link" href="/api/export/transactions.csv" download>Exportar CSV</a>
+    <div id="transactions"></div>
+  </div>
+</section>
+
+<!-- ===================== COMPROMISSOS ===================== -->
+<section id="commitmentsTab" class="tab hidden">
+  <div class="panel">
+    <h2>Novo compromisso <span class="chbadge">Guia de Conhecimento · Cap. 7</span></h2>
+    <form id="commitmentForm" class="grid">
+      <input type="hidden" name="_editId">
+      <div class="field"><label>Conta / compromisso</label><input name="description" placeholder="Ex.: Aluguel, luz..." required></div>
+      <div class="field"><label>Valor</label><input name="amount" type="number" step="0.01" min="0.01" placeholder="0,00" required></div>
+      <div class="field"><label>Vencimento</label><input name="due_date" type="date" required></div>
+      <div class="field" style="justify-content:flex-end"><label class="check"><input name="recurring" type="checkbox"> Recorrente</label></div>
+      <div class="form-actions">
+        <button type="button" class="ghost hidden" data-cancel-edit>Cancelar edição</button>
+        <button class="submit" data-submit-label>Adicionar</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h2>Compromissos</h2>
+    <a class="export-link" href="/api/export/commitments.csv" download>Exportar CSV</a>
+    <div id="commitmentsList"></div>
+  </div>
+</section>
+
+<!-- ===================== DÍVIDAS ===================== -->
+<section id="debtsTab" class="tab hidden">
+  <div class="panel">
+    <h2>Registrar dívida <span class="chbadge">Guia de Conhecimento · Cap. 8 e 9</span></h2>
+    <form id="debtForm" class="grid">
+      <input type="hidden" name="_editId">
+      <div class="field"><label>Credor</label><input name="creditor" placeholder="Ex.: Banco, loja..." required></div>
+      <div class="field"><label>Descrição</label><input name="description" placeholder="Ex.: Cartão, empréstimo..." required></div>
+      <div class="field"><label>Total devido</label><input name="total_amount" type="number" step="0.01" placeholder="0,00" required></div>
+      <div class="field"><label>Valor da parcela</label><input name="installment_amount" type="number" step="0.01" placeholder="0,00"></div>
+      <div class="field"><label>Parcelas restantes</label><input name="installments_left" type="number" min="0" placeholder="0"></div>
+      <div class="field"><label>Vencimento</label><input name="due_date" type="date"></div>
+      <div class="field"><label>Juros / observação</label><input name="interest_note" placeholder="Opcional"></div>
+      <div class="form-actions">
+        <button type="button" class="ghost hidden" data-cancel-edit>Cancelar edição</button>
+        <button class="submit" data-submit-label>Adicionar dívida</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h2>Minhas dívidas</h2>
+    <a class="export-link" href="/api/export/debts.csv" download>Exportar CSV</a>
+    <div id="debtsList"></div>
+  </div>
+</section>
+
+<!-- ===================== OBJETIVOS ===================== -->
+<section id="goalsTab" class="tab hidden">
+  <div class="panel">
+    <h2>Novo objetivo <span class="chbadge">Guia de Conhecimento · Cap. 11 e 12</span></h2>
+    <form id="goalForm" class="grid">
+      <input type="hidden" name="_editId">
+      <div class="field"><label>Objetivo</label><input name="name" placeholder="Ex.: Reserva financeira" required></div>
+      <div class="field"><label>Valor do objetivo</label><input name="target_amount" type="number" step="0.01" placeholder="0,00" required></div>
+      <div class="field"><label>Já guardado</label><input name="saved_amount" type="number" step="0.01" value="0" placeholder="0,00"></div>
+      <div class="field"><label>Data alvo</label><input name="target_date" type="date"></div>
+      <div class="form-actions">
+        <button type="button" class="ghost hidden" data-cancel-edit>Cancelar edição</button>
+        <button class="submit" data-submit-label>Criar objetivo</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h2>Meus objetivos</h2>
+    <a class="export-link" href="/api/export/goals.csv" download>Exportar CSV</a>
+    <div id="goalsList"></div>
+  </div>
+</section>
+
+<!-- ===================== RESUMO ===================== -->
+<section id="resumoTab" class="tab hidden">
+  <div class="panel">
+    <h2>Entradas x despesas por mês <span class="chbadge">Guia de Conhecimento · Cap. 4, 5 e 10</span></h2>
+    <div id="monthlyChart" class="chart-wrap"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Para onde suas despesas estão indo <span class="chbadge">Guia de Conhecimento · Cap. 6</span></h2>
+    <div id="categoryBreakdown"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Conta e assinatura</h2>
+    <div id="accountInfo" class="account-info"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Exportar todos os dados</h2>
+    <p class="muted" style="margin-bottom:12px">Baixe seus registros em CSV para guardar uma cópia ou abrir em planilha.</p>
+    <div class="export-grid">
+      <a class="export-link block" href="/api/export/transactions.csv" download>Movimentações (.csv)</a>
+      <a class="export-link block" href="/api/export/commitments.csv" download>Compromissos (.csv)</a>
+      <a class="export-link block" href="/api/export/debts.csv" download>Dívidas (.csv)</a>
+      <a class="export-link block" href="/api/export/goals.csv" download>Objetivos (.csv)</a>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Este Miniapp é parte de um kit</h2>
+    <p class="muted" style="margin-bottom:14px">Cada aba conversa com um capítulo do <strong>Guia de Conhecimento</strong>. Depois de registrar aqui, use o <strong>Guia de Prática — 30 Dias</strong> para transformar o que você observou em hábito.</p>
+    <div class="kit-map">
+      <div class="kit-row"><span>Movimentações</span><span>Capítulos 2 e 3</span></div>
+      <div class="kit-row"><span>Resumo mensal</span><span>Capítulos 4, 5 e 10</span></div>
+      <div class="kit-row"><span>Categorias de despesa</span><span>Capítulo 6</span></div>
+      <div class="kit-row"><span>Compromissos</span><span>Capítulo 7</span></div>
+      <div class="kit-row"><span>Dívidas</span><span>Capítulos 8 e 9</span></div>
+      <div class="kit-row"><span>Objetivos</span><span>Capítulos 11 e 12</span></div>
+      <div class="kit-row"><span>Planejamento geral</span><span>Capítulo 13</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Filhos Reinantes
+  <span class="tag-line">Inspirando Vidas para Reinar</span>
+</footer>
+
+</div><!-- /appRoot -->
+
+<div id="toast"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
